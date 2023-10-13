@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 
 
-import java.util.ArrayList;
 
-import com.sun.tools.javac.util.List;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -127,15 +125,15 @@ public class Drivetrain extends SubsystemBase {
     }
     static class DriveConstants {
 
-        public static int frontLeftDriveCANId;
-        public static int frontRightDriveCANId;
-        public static int backLeftDriveCANId;
-        public static int backRightDriveCANId;
+        public static int frontRightDriveCANId = 2;
+        public static int backRightDriveCANId = 4;
+        public static int backLeftDriveCANId = 6;
+        public static int frontLeftDriveCANId = 8;
 
-        public static int frontLeftTurnCANId;
-        public static int frontRightTurnCANId;
-        public static int backLeftTurnCANId;
-        public static int backRightTurnCANId;
+        public static int frontRightTurnCANId = 1;
+        public static int backRightTurnCANId = 3;
+        public static int backLeftTurnCANId = 5;
+        public static int frontLeftTurnCANId = 7;
 
 
         public static double maxVelocityMetersPerSec;
