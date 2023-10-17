@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -47,8 +48,8 @@ public class SwerveModule {
         turningPIDController.setPositionPIDWrappingMinInput(SwerveModuleConstants.kTurningEncoderPositionPIDMinInput);
         turningPIDController.setPositionPIDWrappingMaxInput(SwerveModuleConstants.kTurningEncoderPositionPIDMaxInput);
 
-        turnMotor.setSmartCurrentLimit(SwerveModuleConstants.currentLimit);
-
+        turnMotor.setSmartCurrentLimit(SwerveModuleConstants.turningCurrentLimit);
+        turnMotor.setIdleMode(IdleMode.kBrake);
         turnMotor.burnFlash();
 
         var config = new TalonFXConfiguration();
@@ -92,9 +93,9 @@ public class SwerveModule {
 
     public static class SwerveModuleConstants {
 
-        public static int currentLimit;
         public static double kTurningEncoderPositionPIDMaxInput;
         public static double kTurningEncoderPositionPIDMinInput;
+        public static int turningCurrentLimit = 30;
         public static double turnP;
         public static double turnI;
         public static double turnD;
