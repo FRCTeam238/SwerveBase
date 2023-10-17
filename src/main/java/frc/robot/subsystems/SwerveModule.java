@@ -59,9 +59,8 @@ public class SwerveModule {
         config.Slot0.kI = SwerveModuleConstants.driveI;
         config.Slot0.kD = SwerveModuleConstants.driveD;
         config.Slot0.kV = SwerveModuleConstants.driveFF;
-
-
         config.Slot0.kS = SwerveModuleConstants.driveKs;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         config.CurrentLimits.StatorCurrentLimit = SwerveModuleConstants.driveCurrentLimit;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
         config.Feedback.SensorToMechanismRatio = SwerveModuleConstants.kDriveMetersPerRev;
