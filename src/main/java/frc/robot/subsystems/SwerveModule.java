@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -14,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 
 public class SwerveModule {
 
@@ -59,8 +61,10 @@ public class SwerveModule {
         config.Slot0.kV = SwerveModuleConstants.driveFF;
 
 
+        config.Slot0.kS = SwerveModuleConstants.driveKs;
         config.CurrentLimits.StatorCurrentLimit = SwerveModuleConstants.driveCurrentLimit;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
+        config.Feedback.SensorToMechanismRatio = SwerveModuleConstants.kDriveMetersPerRev;
         driveMotor.getConfigurator().apply(config);
 
 
@@ -83,7 +87,7 @@ public class SwerveModule {
 
         SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getPosition()));
         turningPIDController.setReference(optimizedState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
-        var requestedVoltage = new VelocityVoltage(0);
+        var requestedVoltage = new VelocityVoltage(optimizedState.speedMetersPerSecond);
         driveMotor.setControl(requestedVoltage);
 
         m_desiredState = state;
@@ -110,6 +114,12 @@ public class SwerveModule {
         public static double driveI;
         public static double driveD;
         public static double driveFF;
+        public static double driveKs;
+        public static double wheelDiameter = Units.inchesToMeters(4);
+        public static double wheelCircumference = wheelDiameter * Math.PI;
+        public static double driveRatio = 50./14.*17./27.*45./15.;    //MK4I L2
+        public static double kDriveMetersPerRev = wheelCircumference/driveRatio;
+
 
     }
 
