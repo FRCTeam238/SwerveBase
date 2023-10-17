@@ -83,9 +83,14 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, new Rotation2d(turnEncoder.getPosition()));
+        Rotation2d encoderRotation = new Rotation2d(turnEncoder.getPosition());
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, encoderRotation);
         turningPIDController.setReference(optimizedState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
+        
+        // Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
+        // direction of travel that can occur when modules change directions. This results in smoother
+        // driving.
+        state.speedMetersPerSecond *= optimizedState.angle.minus(encoderRotation).getCos();
         var requestedVoltage = new VelocityVoltage(optimizedState.speedMetersPerSecond);
         driveMotor.setControl(requestedVoltage);
 
