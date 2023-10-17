@@ -59,6 +59,8 @@ public class SwerveModule {
         config.Slot0.kV = SwerveModuleConstants.driveFF;
 
 
+        config.CurrentLimits.StatorCurrentLimit = SwerveModuleConstants.driveCurrentLimit;
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
         driveMotor.getConfigurator().apply(config);
 
 
@@ -101,6 +103,7 @@ public class SwerveModule {
         public static double turnD;
         public static double turnFF;
 
+        public static int driveCurrentLimit = 100;
         public static double driveP;
         public static double driveI;
         public static double driveD;
