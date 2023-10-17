@@ -94,14 +94,16 @@ public class SwerveModule {
     }
 
     public static class SwerveModuleConstants {
+        public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
+        public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
 
-        public static double kTurningEncoderPositionPIDMaxInput;
-        public static double kTurningEncoderPositionPIDMinInput;
         public static int turningCurrentLimit = 30;
+        public static double kTurningEncoderPositionPIDMinInput = 0;
+        public static double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor;
         public static double turnP;
-        public static double turnI;
-        public static double turnD;
-        public static double turnFF;
+        public static double turnI = 0;
+        public static double turnD = 0;
+        public static double turnFF = 0;
 
         public static int driveCurrentLimit = 100;
         public static double driveP;
@@ -109,8 +111,6 @@ public class SwerveModule {
         public static double driveD;
         public static double driveFF;
 
-        public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-        public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
     }
 
 
