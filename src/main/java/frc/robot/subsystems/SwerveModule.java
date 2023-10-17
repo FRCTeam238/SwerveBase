@@ -66,11 +66,7 @@ public class SwerveModule {
         config.Feedback.SensorToMechanismRatio = SwerveModuleConstants.kDriveMetersPerRev;
         driveMotor.getConfigurator().apply(config);
 
-
-
-
-
-
+        m_desiredState.angle = new Rotation2d(turnEncoder.getPosition());
     }
 
     public SwerveModuleState getState() {
