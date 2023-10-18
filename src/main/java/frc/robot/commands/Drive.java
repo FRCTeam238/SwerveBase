@@ -12,8 +12,9 @@ public class Drive extends CommandBase {
 
     Drivetrain drivetrain = Robot.drivetrain;
 
-    OI oi = Robot.oi;
-    public Drive() {}
+    public Drive() {
+        addRequirements(drivetrain);
+    }
 
     @Override
     public void initialize() {
@@ -23,9 +24,9 @@ public class Drive extends CommandBase {
 
     @Override
     public void execute() {
-        double leftJoyX = oi.leftJoystick.getX();
-        double leftJoyY = oi.leftJoystick.getY();
-        double rightJoyX = oi.rightJoystick.getX();
+        double leftJoyX = Robot.oi.leftJoystick.getX();
+        double leftJoyY = Robot.oi.leftJoystick.getY();
+        double rightJoyX = Robot.oi.rightJoystick.getX();
 
         drivetrain.drive(leftJoyX, leftJoyY, rightJoyX, true);
         
