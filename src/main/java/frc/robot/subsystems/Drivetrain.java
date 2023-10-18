@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -46,7 +47,7 @@ public class Drivetrain extends SubsystemBase {
                     backRight.getPosition()
                 }
         );
-    
+        initializeTelemetry();
     }
 
     @Override
@@ -60,6 +61,54 @@ public class Drivetrain extends SubsystemBase {
                     backRight.getPosition()
                 }
         );
+
+        updateTelemetry();
+    }
+
+    public void initializeTelemetry() {
+        SmartDashboard.putNumber("swerve/moduleCount", 4);
+        SmartDashboard.putNumberArray("swerve/wheelLocations", new double[] {
+            new Translation2d(DriveConstants.kWheelBase / 2, DriveConstants.kTrackWidth / 2).getX(),
+            new Translation2d(DriveConstants.kWheelBase / 2, DriveConstants.kTrackWidth / 2).getY(),
+            new Translation2d(DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2).getX(),
+            new Translation2d(DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2).getY(),
+            new Translation2d(-DriveConstants.kWheelBase / 2, DriveConstants.kTrackWidth / 2).getX(),
+            new Translation2d(-DriveConstants.kWheelBase / 2, DriveConstants.kTrackWidth / 2).getY(),
+            new Translation2d(-DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2).getX(),
+            new Translation2d(-DriveConstants.kWheelBase / 2, -DriveConstants.kTrackWidth / 2).getY(),
+        });
+        SmartDashboard.putString("swerve/rotationUnit", "radians");
+        SmartDashboard.putNumber("swerve/sizeLeftRight", DriveConstants.kTrackWidth);
+        SmartDashboard.putNumber("swerve/sizeFrontBack", DriveConstants.kWheelBase);
+        SmartDashboard.putString("swerve/forwardDirection", "up");
+        SmartDashboard.putNumber("swerve/maxAngularVelocity", DriveConstants.maxAngularVelocityRadsPerSec);
+        SmartDashboard.putNumber("swerve/maxSpeed", DriveConstants.maxVelocityMetersPerSec);        
+    }
+
+    public void updateTelemetry() {
+
+        SmartDashboard.putNumberArray("swerve/measuredStates", new double[] {
+            frontLeft.getState().angle.getRadians(), frontLeft.getState().speedMetersPerSecond,
+            frontRight.getState().angle.getRadians(), frontRight.getState().speedMetersPerSecond,
+            backLeft.getState().angle.getRadians(), backLeft.getState().speedMetersPerSecond,
+            backRight.getState().angle.getRadians(), backRight.getState().speedMetersPerSecond,
+        });
+        SmartDashboard.putNumberArray("swerve/desiredStates", new double[] {
+            frontLeft.getDesiredState().angle.getRadians(), frontLeft.getDesiredState().speedMetersPerSecond,
+            frontRight.getDesiredState().angle.getRadians(), frontRight.getDesiredState().speedMetersPerSecond,
+            backLeft.getDesiredState().angle.getRadians(), backLeft.getDesiredState().speedMetersPerSecond,
+            backRight.getDesiredState().angle.getRadians(), backRight.getDesiredState().speedMetersPerSecond,
+        });
+        SmartDashboard.putNumber("swerve/robotRotation", gyro.getAngle());
+        ChassisSpeeds measuredChassisSpeeds = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState());
+        ChassisSpeeds desiredChassisSpeeds = DriveConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getDesiredState(), frontRight.getDesiredState(), backLeft.getDesiredState(), backRight.getDesiredState());
+
+        SmartDashboard.putNumberArray("swerve/measuredChassisSpeeds", new double[] {
+            measuredChassisSpeeds.vyMetersPerSecond, measuredChassisSpeeds.vxMetersPerSecond, measuredChassisSpeeds.omegaRadiansPerSecond
+        });
+        SmartDashboard.putNumberArray("swerve/desiredChassisSpeeds", new double[] {
+            desiredChassisSpeeds.vyMetersPerSecond, desiredChassisSpeeds.vxMetersPerSecond, desiredChassisSpeeds.omegaRadiansPerSecond
+        });
     }
 
     public Pose2d getPose() {
@@ -139,8 +188,8 @@ public class Drivetrain extends SubsystemBase {
         public static int backLeftTurnCANId = 5;
         public static int frontLeftTurnCANId = 7;
 
-
         public static double maxVelocityMetersPerSec = 4.86;
+        public static double maxAngularVelocityRadsPerSec = 2*Math.PI;
 
         public static final double kTrackWidth = Units.inchesToMeters(20);
         public static final double kWheelBase = Units.inchesToMeters(20); 
@@ -149,6 +198,5 @@ public class Drivetrain extends SubsystemBase {
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-
     }
 }

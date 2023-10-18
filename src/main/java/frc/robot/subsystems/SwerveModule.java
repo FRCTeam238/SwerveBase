@@ -73,6 +73,10 @@ public class SwerveModule {
         return new SwerveModuleState(driveMotor.getVelocity().getValue(), new Rotation2d(turnEncoder.getPosition()));
     }
 
+    public SwerveModuleState getDesiredState() {
+        return m_desiredState;
+    }
+
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(driveMotor.getPosition().getValue(), new Rotation2d(turnEncoder.getPosition()));
 
@@ -86,11 +90,11 @@ public class SwerveModule {
         // Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
         // direction of travel that can occur when modules change directions. This results in smoother
         // driving.
-        state.speedMetersPerSecond *= optimizedState.angle.minus(encoderRotation).getCos();
+        optimizedState.speedMetersPerSecond *= optimizedState.angle.minus(encoderRotation).getCos();
         var requestedVoltage = new VelocityVoltage(optimizedState.speedMetersPerSecond);
         driveMotor.setControl(requestedVoltage);
 
-        m_desiredState = state;
+        m_desiredState = optimizedState;
     }
 
     public void resetEncoders() {
