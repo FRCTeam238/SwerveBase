@@ -129,10 +129,10 @@ public class Drivetrain extends SubsystemBase {
     }
     static class DriveConstants {
 
-        public static int frontRightDriveCANId = 2;
-        public static int backRightDriveCANId = 4;
-        public static int backLeftDriveCANId = 6;
-        public static int frontLeftDriveCANId = 8;
+        public static int frontRightDriveCANId = 0;
+        public static int backRightDriveCANId = 2;
+        public static int backLeftDriveCANId = 4;
+        public static int frontLeftDriveCANId = 6;
 
         public static int frontRightTurnCANId = 1;
         public static int backRightTurnCANId = 3;
@@ -140,12 +140,10 @@ public class Drivetrain extends SubsystemBase {
         public static int frontLeftTurnCANId = 7;
 
 
-        public static double maxVelocityMetersPerSec;
+        public static double maxVelocityMetersPerSec = 4.86;
 
-        public static final double kTrackWidth = Units.inchesToMeters(26.5);// change this to actual measurements
-        // Distance between centers of right and left wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(26.5); //change this to actual measurements
-        // Distance between front and back wheels on robot
+        public static final double kTrackWidth = Units.inchesToMeters(20);
+        public static final double kWheelBase = Units.inchesToMeters(20); 
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
                 new Translation2d(kWheelBase / 2, kTrackWidth / 2),
                 new Translation2d(kWheelBase / 2, -kTrackWidth / 2),

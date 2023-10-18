@@ -104,17 +104,17 @@ public class SwerveModule {
         public static int turningCurrentLimit = 30;
         public static double kTurningEncoderPositionPIDMinInput = 0;
         public static double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor;
-        public static double turnP;
+        public static double turnP = .01;
         public static double turnI = 0;
         public static double turnD = 0;
         public static double turnFF = 0;
 
         public static int driveCurrentLimit = 100;
-        public static double driveP;
-        public static double driveI;
-        public static double driveD;
-        public static double driveFF;
-        public static double driveKs;
+        public static double driveP = .01;
+        public static double driveI = 0;
+        public static double driveD = 0;
+        public static double driveFF = 2.45;
+        public static double driveKs = .07;
         public static double wheelDiameter = Units.inchesToMeters(4);
         public static double wheelCircumference = wheelDiameter * Math.PI;
         public static double driveRatio = 50./14.*17./27.*45./15.;    //MK4I L2
